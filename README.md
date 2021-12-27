@@ -4,7 +4,7 @@
 [![Test](https://github.com/NFT-Lab/ERC721-marketplace/actions/workflows/code-formatting.yaml/badge.svg)](https://github.com/NFT-Lab/ERC721-marketplace/actions/workflows/code-formatting.yaml)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 
-# ERC721 Marketplace
+# ERC721 Renting Marketplace
 
 ## Description
 
