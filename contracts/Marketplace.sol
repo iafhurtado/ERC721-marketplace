@@ -14,7 +14,7 @@ import "./NFTLabStoreMarketplaceVariant.sol";
  * implemented. The item tokenization is responsibility of the ERC721 contract
  * which should encode any item details.
  */
-contract Marketplace is Ownable {
+contract RentingMarketplace is Ownable {
     event TradeStatusChange(uint256 id, string status);
 
     NFTLabStoreMarketplaceVariant tokenHandler;
