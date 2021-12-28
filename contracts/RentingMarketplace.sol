@@ -115,10 +115,9 @@ contract RentingMarketplace is Ownable {
     }
 
         /**
-     * @dev Executes a trade. Must have approved this contract to transfer the
-     * amount of currency specified to the poster. Transfers ownership of the
-     * item to the filler.
-     * @param _trade The id of an existing trade
+     * @dev Pulls a Rent. Must be the poster of the Rent and the rent time 
+     * must have been expired for poster to call this function.
+     * @param _trade The id of an existing Rent
      */
      function pullRent(uint25 _rent) external virtual {
      }
