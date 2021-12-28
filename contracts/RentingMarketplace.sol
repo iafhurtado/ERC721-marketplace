@@ -28,7 +28,7 @@ contract RentingMarketplace is Ownable {
 
     mapping(uint256 => Rent) rents;
     mapping(address => uint256[]) addressToRents;
-    mapping(uint256 => uint256) nftToActiverent;
+    mapping(uint256 => uint256) nftToActiveRent;
 
     using Counters for Counters.Counter;
     Counters.Counter private rentCounter;
@@ -41,7 +41,7 @@ contract RentingMarketplace is Ownable {
      * @dev Returns the details for a trade.
      * @param _trade The id for the trade.
      */
-    function getRent(uint256 _trade)
+    function getRent(uint256 _rent)
         public
         view
         virtual
@@ -74,7 +74,7 @@ contract RentingMarketplace is Ownable {
      * @param _nft the nft of wich fetch the active trade
      */
     function getRentOfNft(uint256 _nft) public view virtual returns (uint256) {
-        return nftToActiverent[_nft];
+        return nftToActiveRent[_nft];
     }
 
     /**
@@ -92,7 +92,7 @@ contract RentingMarketplace is Ownable {
             status: "Open"
         });
         addressToRents[msg.sender].push(rentCounter.current());
-        nftToActiverent[_item] = rentCounter.current();
+        nftToActiveRent[_item] = rentCounter.current();
         emit RentStatusChange(rentCounter.current(), "Open");
     }
 
@@ -104,15 +104,24 @@ contract RentingMarketplace is Ownable {
      */
     function executeRent(uint256 _rent) external payable virtual {
         Rent memory rent = rents[_rent];
-        _checkPayment(msg.value, trade.price);
+        _checkPayment(msg.value, rent.price);
         require(rent.status == "Open", "Rent is not open");
         bool sent = _pay(msg.sender, rent.poster, rent.price);
         require(sent, "Failed to send eth to pay the art");
         tokenHandler._marketTransfer(address(this), msg.sender, rent.item);
-        delete nftToActiverent[rent.item];
+        delete nftToActiveRent[rent.item];
         rents[_rent].status = "Executed";
         emit RentStatusChange(_rent, "Executed");
     }
+
+        /**
+     * @dev Executes a trade. Must have approved this contract to transfer the
+     * amount of currency specified to the poster. Transfers ownership of the
+     * item to the filler.
+     * @param _trade The id of an existing trade
+     */
+     function pullRent(uint25 _rent) external virtual {
+     }
 
     /**
      * @dev Pays the reciver the selected amount;
